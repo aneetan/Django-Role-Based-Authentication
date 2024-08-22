@@ -1,0 +1,15 @@
+POST http://127.0.0.1:8000/login
+Content-Type: application/json
+
+{"username": "aneeta", "password": "anita@123"}
+
+
+POST http://127.0.0.1:8000/signup
+Content-Type: application/json
+
+{"username":"anita", "password":"anita@123", "email": "anita@gmail.com"}
+
+
+GET http://127.0.0.1:8000/jwtToken
+Content-Type: application/application/json
+Authorization: Token b859daf715ccb610ff9a9f0cd3b8f45298352a73
