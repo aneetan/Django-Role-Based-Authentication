@@ -3,10 +3,14 @@ from rest_framework.response import Response    #generate json responses in resp
 
 from .serializers import UserSerializer        # write json objects on database
 from rest_framework import status               #return status code 201 or 400
-from rest_framework.authtoken.models import Token  #fetch and create user and token
+from rest_framework.authtoken.models import Token  
 from django.contrib.auth.models import User
 
 from django.shortcuts import get_object_or_404
+
+from rest_framework.decorators import authentication_classes, permission_classes  
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication #authenticate session with tokens
+from rest_framework.permissions import IsAuthenticated #declare that API only works if the user is authenticated 
 
 
 @api_view(['POST'])
@@ -44,6 +48,8 @@ def signup(request):
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
 def jwtToken(request):
-    return Response({})
+    return Response("passed for {}".format(request.user.email))
 
