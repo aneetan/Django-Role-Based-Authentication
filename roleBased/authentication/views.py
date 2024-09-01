@@ -7,6 +7,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from .permissions import IsAdmin
 
 
 class UserRegistration(APIView):
@@ -23,11 +24,11 @@ class UserLoginView(ObtainAuthToken):
         username = request.data.get('username')
         password = request.data.get('password')
 
-        user = authenticate(request, username = username, password = password)
+        user = authenticate(request, username=username, password=password)
 
         if user is not None:
             login(request, user)
-            token, created = Token.objects.get_or_create(user = user)
+            token, created = Token.objects.get_or_create(user=user)
 
             if created:
                 token.delete()
@@ -36,7 +37,7 @@ class UserLoginView(ObtainAuthToken):
             return Response({'token':token.key,'username': user.username, 'role': user.role})
         
         else:
-            return Response({'messsage':'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'message':'Invalid username or password'}, status=status.HTTP_401_UNAUTHORIZED)
         
 
 class UserLogoutView(APIView):
@@ -49,5 +50,7 @@ class UserLogoutView(APIView):
         token.delete()
 
         return Response({'detail': 'Successful logout'})
+    
+    
     
 
