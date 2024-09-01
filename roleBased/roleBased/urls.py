@@ -5,5 +5,4 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/', views.userPage, name="userpage"),
 ]
