@@ -7,7 +7,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsAdmin
+from .permissions import IsAdmin, IsTeacher, IsStudent
 
 
 class UserRegistration(APIView):
@@ -51,6 +51,12 @@ class UserLogoutView(APIView):
 
         return Response({'detail': 'Successful logout'})
     
-    
+
+class TeacherOnlyView(APIView):
+    permission_classes = [IsAuthenticated, IsTeacher]
+
+    def get(self, request):
+        return render(request, 'teacher.html')
+        
     
 
